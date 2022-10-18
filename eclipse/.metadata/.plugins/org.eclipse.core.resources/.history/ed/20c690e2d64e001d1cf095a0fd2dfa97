@@ -14,7 +14,6 @@ public class App
 	
 	public static ServerManager manager;
 	
-	//Main
     public static void main(String[] args) throws SQLException, IOException
     {
     	sqlTable = new SQLTable("markus", "password", "olphonia");
