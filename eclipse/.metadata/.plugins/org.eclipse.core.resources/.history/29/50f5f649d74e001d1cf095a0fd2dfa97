@@ -17,6 +17,7 @@ public class SQLHandler {
 	
 	public void registerUser(String uname, int password) {
 		this.sqlTable.sendStatement("INSERT INTO users VALUES ('" + UUID.randomUUID() + "', false, '" + uname + "', " + password + ");");
+		this.sqlTable.sendStatement("CREATE TABLE " + uname + " (sender varchar(20), message varchar(255), time varchar(63));");
 	}
 	
 	public boolean loginUser(String uname, int password) {
@@ -38,7 +39,8 @@ public class SQLHandler {
 		if(!User.exists(sender)) return false;
 		if(!User.exists(receiver)) return false;
 		
-		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + User.getUUID(sender) + "', '" + User.getUUID(receiver) + "', '" + message + "', " + (new Date()).getTime() + ");");
+		System.out.println("INSERT INTO " + sender + " VALUES ('" + sender + "', '" + message + "', '" + (new Date()).getTime() + "');");
+		this.sqlTable.sendStatement("INSERT INTO " + receiver + " VALUES ('" + sender + "', '" + message + "', '" + (new Date()).getTime() + "');");
 		return true;
 	}
 }

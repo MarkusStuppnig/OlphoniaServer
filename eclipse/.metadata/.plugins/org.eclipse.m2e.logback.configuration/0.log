@@ -104,3 +104,31 @@
 2022-10-18 13:21:22,567 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
 2022-10-18 13:21:22,572 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2022-10-18 13:21:22,573 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:23:29,227 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:23:29,227 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:23:29,229 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:23:29,229 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:24:13,680 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:24:13,680 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:24:13,682 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:24:13,682 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:25:49,543 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:25:49,544 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:25:49,545 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:25:49,545 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:25:52,272 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:25:52,273 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:25:52,274 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:25:52,274 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:26:09,838 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:26:09,838 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:26:09,841 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:26:09,841 [Worker-19: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:26:22,746 [Worker-18: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:26:22,747 [Worker-18: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:26:22,756 [Worker-18: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:26:22,756 [Worker-18: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:26:26,555 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:26:26,555 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:26:26,560 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:26:26,560 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
