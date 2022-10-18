@@ -8,7 +8,6 @@ import tgm.olphonia.sqlHandler.SQLHandler;
 import tgm.olphonia.sqlHandler.SQLTable;
 
 public class App  {
-	
 	public static SQLTable sqlTable;
 	public static SQLHandler sqlHandler;
 	
