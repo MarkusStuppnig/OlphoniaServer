@@ -132,3 +132,12 @@
 2022-10-18 13:26:26,555 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
 2022-10-18 13:26:26,560 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2022-10-18 13:26:26,560 [Worker-15: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
+2022-10-18 13:32:56,398 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2022-10-18 13:34:11,017 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:34:11,018 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/client/src/main/resources
+2022-10-18 13:34:11,021 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:34:11,021 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/client/src/test/resources
+2022-10-18 13:34:11,317 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:34:11,317 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/main/resources
+2022-10-18 13:34:11,320 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-10-18 13:34:11,320 [Worker-1: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/markus/Documents/Olphonia/OlphoniaServer/eclipse/olphonia/src/test/resources
