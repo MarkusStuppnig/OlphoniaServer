@@ -13,10 +13,9 @@ import tgm.olphonia.connection.distributor.Distributor;
 
 public class ServerManager
 {
-	private Distributor distributor;
 	
 	public ServerManager() {
-		this.distributor = this.launchDistributor(1800);
+		this.launchDistributor(1800);
 	}
 	
 	private Distributor launchDistributor(int port) {
