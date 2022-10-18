@@ -1,0 +1,4 @@
+# ignore IDE things
+eclipse/.metadata
+*.vscode
+*.code-workspace
