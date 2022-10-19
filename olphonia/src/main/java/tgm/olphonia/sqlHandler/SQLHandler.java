@@ -38,7 +38,7 @@ public class SQLHandler {
 		if(!User.exists(sender)) return false;
 		if(!User.exists(receiver)) return false;
 		
-		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + User.getUUID(sender) + "', '" + User.getUUID(receiver) + "', '" + message + "', " + (new Date()).getTime() + ");");
+		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + User.getUUID(sender) + "', '" + User.getUUID(receiver) + "', '" + message + "', " + String.valueOf((new Date()).getTime()) + ");");
 		return true;
 	}
 }

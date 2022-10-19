@@ -21,13 +21,18 @@ public class Distributor extends AbstractStreamHandler {
 		System.out.println(string);
 
 		JSONObject json = new JSONObject(string);
-		String uname = json.getString("uname");
-		int password = json.getString("password").hashCode();
 		String request = json.getString("request");
+		
+		String uname;
+		int password = 0;
 		
 		switch(request) {
 		
 			case "register":
+				
+				uname = json.getString("uname");
+				password = json.getString("password").hashCode();
+				
 				if(!User.checkName(uname)) return;
 				if(!User.checkPassword(password)) return;
 				
@@ -44,6 +49,10 @@ public class Distributor extends AbstractStreamHandler {
 				break;
 				
 			case "login":
+				
+				uname = json.getString("uname");
+				password = json.getString("password").hashCode();
+				
 				if(!User.checkName(uname)) return;
 				if(!User.checkPassword(password)) return;
 				
@@ -63,10 +72,12 @@ public class Distributor extends AbstractStreamHandler {
 				break;
 			
 			case "send":
+				
+				if(this.getSession().getAttributes().size() == 0 || !User.exists(String.valueOf(this.getSession().getAttributes().get(0)))) return;
+				
 				String receiver = json.getString("receiver");
 				String message = json.getString("message");
 				
-				//App.sqlHandler.sendMessage(String.valueOf(this.getSession().getAttributes().get(0)), receiver, message);
 				if(!App.sqlHandler.sendMessage(String.valueOf(this.getSession().getAttributes().get(0)), receiver, message)) return;
 				
 				this.send("Sent successfully");
