@@ -21,11 +21,6 @@ public class User {
 		return true;
 	}
 	
-	public static boolean checkPassword(int password) {
-		if(password == -1) return false;
-		return true;
-	}
-	
 	public static String getUUID(String uname) {
 		ResultSet results = App.sqlTable.requestDatabase("SELECT id FROM users WHERE uname = '" + uname + "';");
 		try {
@@ -36,8 +31,8 @@ public class User {
 		return null;
 	}
 	
-	public static boolean exists(String uname) {
-		ResultSet results = App.sqlTable.requestDatabase("SELECT * FROM users WHERE uname = '" + uname + "';");
+	public static boolean exists(Account account) {
+		ResultSet results = App.sqlTable.requestDatabase("SELECT * FROM users WHERE id = '" + account.uuid + "';");
 		try {
 			return results.next();
 		}
@@ -45,8 +40,8 @@ public class User {
 		return false;
 	}
 	
-	public static boolean isOnline(String uname) {
-		ResultSet results = App.sqlTable.requestDatabase("SELECT online FROM users WHERE uname = '" + uname + "';");
+	public static boolean isOnline(Account account) {
+		ResultSet results = App.sqlTable.requestDatabase("SELECT online FROM users WHERE id = '" + account.uuid + "';");
 		
 		try {
 			if(!results.next()) return false;
@@ -58,9 +53,9 @@ public class User {
 		return false;
 	}
 	
-	public static boolean setOnline(String uname, boolean online) {
-		if(!User.exists(uname)) return false;
-		App.sqlTable.sendStatement("UPDATE users SET online = " + online + " WHERE uname = '" + uname + "';");
+	public static boolean setOnline(Account account, boolean online) {
+		if(!User.exists(account)) return false;
+		App.sqlTable.sendStatement("UPDATE users SET online = " + online + " WHERE id = '" + account.uuid + "';");
 		return true;
 	}
 }

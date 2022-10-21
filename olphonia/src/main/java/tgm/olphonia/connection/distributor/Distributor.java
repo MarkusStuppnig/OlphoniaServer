@@ -8,11 +8,13 @@ import org.snf4j.core.handler.SessionEvent;
 import org.snf4j.core.session.IStreamSession;
 
 import tgm.olphonia.App;
+import tgm.olphonia.user.Account;
 import tgm.olphonia.user.User;
 
 public class Distributor extends AbstractStreamHandler {
 
 	private HashMap<String, IStreamSession> sessions = new HashMap<String, IStreamSession>();
+	private Account account = null;
 	
 	@Override
 	public void read(Object msg) {
@@ -23,62 +25,50 @@ public class Distributor extends AbstractStreamHandler {
 		JSONObject json = new JSONObject(string);
 		String request = json.getString("request");
 		
-		String uname;
-		int password = 0;
-		
 		switch(request) {
 		
 			case "register":
 				
-				uname = json.getString("uname");
-				password = json.getString("password").hashCode();
+				if(this.account != null) {
+					this.handleWrongRequest();
+					return;
+				}
 				
-				if(!User.checkName(uname)) return;
-				if(!User.checkPassword(password)) return;
+				this.account = new Account(json.getString("uname"), User.getUUID(json.getString("uname")));
+				if(!User.checkName(this.account.uname)) return;
+				if(User.exists(this.account)) return;
 				
-				if(User.exists(uname)) return;
+				App.sqlHandler.registerUser(this.account, json.getString("password").hashCode());
 				
-				App.sqlHandler.registerUser(uname, password);
-				User.setOnline(uname, true);
-				
-				this.getSession().getAttributes().put(0, uname);
-				this.sessions.put(uname, getSession());
-					
-				this.send("Registered Successfully");
+				this.login(json.getString("password").hashCode());
 				
 				break;
 				
 			case "login":
 				
-				uname = json.getString("uname");
-				password = json.getString("password").hashCode();
-				
-				if(!User.checkName(uname)) return;
-				if(!User.checkPassword(password)) return;
-				
-				if(!App.sqlHandler.loginUser(uname, password)) {
-					this.handleWrongPassword();
+				if(this.account != null) {
+					this.handleWrongRequest();
 					return;
 				}
-				if(User.isOnline(uname)) return;
+				
+				this.account = new Account(json.getString("uname"), User.getUUID(json.getString("uname")));
+				if(!User.exists(account)) return;
 
-				User.setOnline(uname, true);
-					
-				this.getSession().getAttributes().put(0, uname);
-				this.sessions.put(uname, getSession());
-					
-				this.send("Logged in Successfully");
+				this.login(json.getString("password").hashCode());
 				
 				break;
 			
 			case "send":
 				
-				if(this.getSession().getAttributes().size() == 0 || !User.exists(String.valueOf(this.getSession().getAttributes().get(0)))) return;
+				if(!isValidSession()) {
+					this.handleWrongRequest();
+					return;
+				}
 				
 				String receiver = json.getString("receiver");
 				String message = json.getString("message");
 				
-				if(!App.sqlHandler.sendMessage(String.valueOf(this.getSession().getAttributes().get(0)), receiver, message)) return;
+				if(!App.sqlHandler.sendMessage(account, new Account(receiver, User.getUUID(receiver)), message)) return;
 				
 				this.send("Sent successfully");
 				break;
@@ -93,18 +83,35 @@ public class Distributor extends AbstractStreamHandler {
 				break;
 				
 			case CLOSED:
-				User.setOnline(String.valueOf(getSession().getAttributes().get(0)), false);
-				sessions.remove(getSession().getAttributes().get(0));
+				User.setOnline(this.account, false);
+				sessions.remove(this.account.uuid);
 				break;
 		}
+	}
+	
+	private void login(int password) {
+		if(!App.sqlHandler.checkPassword(this.account, password)) {
+			this.handleWrongRequest();
+			return;
+		}
+		User.setOnline(this.account, true);
+		this.account.loggedIn = true;
+		
+		this.sessions.put(this.account.uuid, getSession());
+			
+		this.send("Logged in Successfully");
+	}
+	
+	private boolean isValidSession() {
+		return this.account.loggedIn;
 	}
 	
 	private void send(String message) {
 		this.getSession().write(message.getBytes());
 	}
 	
-	private void handleWrongPassword() {
-		this.send("Wrong password");
+	private void handleWrongRequest() {
+		this.send("Wrong request");
 		this.getSession().close();
 	}
 }

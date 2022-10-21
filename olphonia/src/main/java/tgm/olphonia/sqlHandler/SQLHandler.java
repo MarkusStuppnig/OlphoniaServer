@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
+import tgm.olphonia.user.Account;
 import tgm.olphonia.user.User;
 
 public class SQLHandler {
@@ -15,12 +16,12 @@ public class SQLHandler {
 		this.sqlTable = sqlTable;
 	}
 	
-	public void registerUser(String uname, int password) {
-		this.sqlTable.sendStatement("INSERT INTO users VALUES ('" + UUID.randomUUID() + "', false, '" + uname + "', " + password + ");");
+	public void registerUser(Account account, int password) {
+		this.sqlTable.sendStatement("INSERT INTO users VALUES ('" + UUID.randomUUID() + "', false, '" + account.uname + "', " + password + ");");
 	}
 	
-	public boolean loginUser(String uname, int password) {
-		ResultSet results = this.sqlTable.requestDatabase("SELECT password FROM users WHERE uname = '" + uname + "';");
+	public boolean checkPassword(Account account, int password) {
+		ResultSet results = this.sqlTable.requestDatabase("SELECT password FROM users WHERE uname = '" + account.uname + "';");
 		
 		try {
 			if(!results.next()) return false;
@@ -34,11 +35,11 @@ public class SQLHandler {
 		return false;
 	}
 	
-	public boolean sendMessage(String sender, String receiver, String message) {
+	public boolean sendMessage(Account sender, Account receiver, String message) {
 		if(!User.exists(sender)) return false;
 		if(!User.exists(receiver)) return false;
 		
-		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + User.getUUID(sender) + "', '" + User.getUUID(receiver) + "', '" + message + "', " + String.valueOf((new Date()).getTime()) + ");");
+		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + sender.uuid + "', '" + receiver.uuid + "', '" + message + "', " + String.valueOf((new Date()).getTime()) + ");");
 		return true;
 	}
 }
