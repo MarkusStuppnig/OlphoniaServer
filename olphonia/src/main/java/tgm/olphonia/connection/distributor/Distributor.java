@@ -2,6 +2,7 @@ package tgm.olphonia.connection.distributor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,13 +18,11 @@ import tgm.olphonia.user.User;
 public class Distributor extends AbstractStreamHandler {
 
 	private HashMap<String, IStreamSession> sessions = new HashMap<String, IStreamSession>();
-	private Account account = null;
+	public Account account = null;
 	
 	@Override
 	public void read(Object msg) {
 		String string = new String((byte[])msg);
-		
-		System.out.println(string);
 
 		JSONObject json = new JSONObject(string);
 		String request = json.getString("request");
@@ -32,70 +31,54 @@ public class Distributor extends AbstractStreamHandler {
 		
 			case "register":
 				
-				if(this.account != null) {
+				if(this.account != null || !User.checkName(json.getString("uname"))) {
 					this.handleWrongRequest();
 					return;
 				}
 				
-				this.account = new Account(json.getString("uname"), User.getUUID(json.getString("uname")));
-				if(!User.checkName(this.account.uname)) return;
+				this.register(json.getString("uname"), json.getString("password").hashCode());
+				this.login(json.getString("uname"), json.getString("password").hashCode());
 				
-				if(User.exists(this.account)) {
-					this.handleWrongRequest();
-					return;
-				}
-				
-				App.sqlHandler.registerUser(this.account, json.getString("password").hashCode());
-				
-				this.login(json.getString("password").hashCode());
-				
-				break;
+				return;
 				
 			case "login":
 				
-				if(this.account != null) {
+				if(this.account != null || !User.checkName(json.getString("uname"))) {
 					this.handleWrongRequest();
 					return;
 				}
-				
-				this.account = new Account(json.getString("uname"), User.getUUID(json.getString("uname")));
-				if(!User.exists(account)) return;
 
-				this.login(json.getString("password").hashCode());
+				this.login(json.getString("uname"), json.getString("password").hashCode());
 				
-				break;
-			
+				return;
+		}
+		
+		if(this.account == null) {
+			this.handleWrongRequest();
+			return;
+		}
+		
+		switch(request) {
+		
 			case "send":
 				
-				if(!isValidSession()) {
-					this.handleWrongRequest();
-					return;
-				}
-				
 				String receiverStr = json.getString("receiver");
-				String messageStr = json.getString("message");
-				
 				Account receiver = new Account(receiverStr, User.getUUID(receiverStr));
 				
-				if(!User.exists(receiver)) {
+				if(!receiver.exists()) {
 					this.handleWrongRequest();
 					return;
 				}
 				
-				Message message = App.sqlHandler.sendMessage(this.account, receiver, messageStr);
+				Message message = App.sqlHandler.sendMessage(this.account, receiver, json.getString("message"));
 				
-				if(User.isOnline(receiver)) {
+				if(receiver.isOnline()) {
 					this.sessions.get(receiver.uuid).write(message.toString());
 				}
 
 				break;
 			
 			case "receive":
-				
-				if(!isValidSession()) {
-					this.handleWrongRequest();
-					return;
-				}
 				
 				this.receiveAllMessages();
 				
@@ -107,31 +90,37 @@ public class Distributor extends AbstractStreamHandler {
 	@Override
 	public void event(SessionEvent event) {
 		switch (event) {
-			case OPENED:
-				break;
-				
 			case CLOSED:
-				User.setOnline(this.account, false);
+				this.account.setOnline(false);
 				sessions.remove(this.account.uuid);
 				break;
 		}
 	}
 	
-	private void login(int password) {
-		if(!App.sqlHandler.checkPassword(this.account, password)) {
+	private void register(String uname, int password) {
+		this.setAccount(new Account(uname, User.getUUID(uname)));
+		if(this.account.exists()) {
 			this.handleWrongRequest();
 			return;
 		}
-		User.setOnline(this.account, true);
-		this.account.loggedIn = true;
-		
+		this.account.uuid = UUID.randomUUID().toString();
+		App.sqlHandler.registerUser(this.account, password);
+	}
+
+	private void login(String uname, int password) {
+		this.setAccount(new Account(uname, User.getUUID(uname)));
+		if(!account.exists() || !App.sqlHandler.checkPassword(this.account, password)) {
+			this.handleWrongRequest();
+			return;
+		}
+		this.account.setOnline(true);
 		this.sessions.put(this.account.uuid, getSession());
-			
+		
 		this.receiveAllMessages();
 	}
 	
-	private boolean isValidSession() {
-		return this.account.loggedIn;
+	private void setAccount(Account account) {
+		this.account = account;
 	}
 	
 	private void receiveAllMessages() {

@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import tgm.olphonia.user.Account;
 import tgm.olphonia.user.Message;
-import tgm.olphonia.user.User;
 
 public class SQLHandler {
 
@@ -39,12 +38,12 @@ public class SQLHandler {
 	
 	public Message sendMessage(Account sender, Account receiver, String messageStr) {
 		Message message = new Message(sender.uuid, receiver.uuid, messageStr, String.valueOf((new Date()).getTime()));
-		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + message.getUuidSender() + "', '" + message.getUuidReceiver() + "', '" + message.getMessage() + "', " + message.getTime() + ");");
+		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + message.uuidSender + "', '" + message.uuidReceiver + "', '" + message.message + "', " + message.time + ");");
 		return message;
 	}
 	
 	public ArrayList<Message> receiveAllMessages(Account sender) {
-		if(!User.exists(sender)) return null;
+		if(!sender.exists()) return null;
 		
 		ArrayList<Message> messages = new ArrayList<Message>();
 		

@@ -4,10 +4,10 @@ import org.json.JSONObject;
 
 public class Message {
 
-	private final String uuidSender;
-	private final String uuidReceiver;
-	private final String message;
-	private final String time;
+	public final String uuidSender;
+	public final String uuidReceiver;
+	public final String message;
+	public final String time;
 	
 	public Message(String uuidSender, String uuidReceiver, String message, String time) {
 		this.uuidSender = uuidSender;
@@ -15,30 +15,14 @@ public class Message {
 		this.message = message;
 		this.time = time;
 	}
-
-	public String getUuidSender() {
-		return this.uuidSender;
-	}
-
-	public String getUuidReceiver() {
-		return this.uuidReceiver;
-	}
-
-	public String getMessage() {
-		return this.message;
-	}
-
-	public String getTime() {
-		return this.time;
-	}
 	
 	public JSONObject getJSON() {
 		JSONObject message = new JSONObject();
 		
-		message.put("sender", this.getUuidSender());
-		message.put("receiver", this.getUuidReceiver());
-		message.put("message", this.getMessage());
-		message.put("time", this.getTime());
+		message.put("sender", this.uuidSender);
+		message.put("receiver", this.uuidReceiver);
+		message.put("message", this.message);
+		message.put("time", this.time);
 		
 		return message;
 	}
