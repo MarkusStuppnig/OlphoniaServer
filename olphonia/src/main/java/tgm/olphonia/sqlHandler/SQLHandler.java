@@ -2,10 +2,12 @@ package tgm.olphonia.sqlHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 import tgm.olphonia.user.Account;
+import tgm.olphonia.user.Message;
 import tgm.olphonia.user.User;
 
 public class SQLHandler {
@@ -41,5 +43,21 @@ public class SQLHandler {
 		
 		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + sender.uuid + "', '" + receiver.uuid + "', '" + message + "', " + String.valueOf((new Date()).getTime()) + ");");
 		return true;
+	}
+	
+	public ArrayList<Message> receiveAllMessages(Account sender) {
+		if(!User.exists(sender)) return null;
+		
+		ArrayList<Message> messages = new ArrayList<Message>();
+		
+		ResultSet rs = this.sqlTable.requestDatabase("SELECT * FROM messages WHERE receiver = '" + sender.uuid + "';");
+		
+		try {
+			while(rs.next()) {
+				messages.add(new Message(rs.getString("sender"), rs.getString("receiver"), rs.getString("message"), rs.getString("time")));
+			}
+		} catch (SQLException e) {}
+		
+		return messages;
 	}
 }

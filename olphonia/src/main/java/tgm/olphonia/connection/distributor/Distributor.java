@@ -1,7 +1,9 @@
 package tgm.olphonia.connection.distributor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.snf4j.core.handler.AbstractStreamHandler;
 import org.snf4j.core.handler.SessionEvent;
@@ -9,6 +11,7 @@ import org.snf4j.core.session.IStreamSession;
 
 import tgm.olphonia.App;
 import tgm.olphonia.user.Account;
+import tgm.olphonia.user.Message;
 import tgm.olphonia.user.User;
 
 public class Distributor extends AbstractStreamHandler {
@@ -72,6 +75,17 @@ public class Distributor extends AbstractStreamHandler {
 				
 				this.send("Sent successfully");
 				break;
+			
+			case "receive":
+				
+				if(!isValidSession()) {
+					this.handleWrongRequest();
+					return;
+				}
+				
+				
+				
+				break;
 		}
 	}
 
@@ -99,11 +113,31 @@ public class Distributor extends AbstractStreamHandler {
 		
 		this.sessions.put(this.account.uuid, getSession());
 			
-		this.send("Logged in Successfully");
+		this.receiveAllMessages();
 	}
 	
 	private boolean isValidSession() {
 		return this.account.loggedIn;
+	}
+	
+	private void receiveAllMessages() {
+		ArrayList<Message> messages = App.sqlHandler.receiveAllMessages(this.account); 
+		
+		JSONObject messagesJSON = new JSONObject();
+		JSONArray messagesArray = new JSONArray();
+		
+		for(Message message : messages) {
+			JSONObject messageJSON = new JSONObject();
+			messageJSON.put("sender", message.getUuidSender());
+			messageJSON.put("message", message.getMessage());
+			messageJSON.put("time", message.getTime());
+			
+			messagesArray.put(messageJSON);
+		}
+		
+		messagesJSON.put("messages", messagesArray);
+		
+		this.send(messagesJSON.toString());
 	}
 	
 	private void send(String message) {
