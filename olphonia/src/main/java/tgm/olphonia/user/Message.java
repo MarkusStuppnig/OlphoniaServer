@@ -1,5 +1,7 @@
 package tgm.olphonia.user;
 
+import org.json.JSONObject;
+
 public class Message {
 
 	private final String uuidSender;
@@ -28,5 +30,16 @@ public class Message {
 
 	public String getTime() {
 		return this.time;
+	}
+	
+	public JSONObject getJSON() {
+		JSONObject message = new JSONObject();
+		
+		message.put("sender", this.getUuidSender());
+		message.put("receiver", this.getUuidReceiver());
+		message.put("message", this.getMessage());
+		message.put("time", this.getTime());
+		
+		return message;
 	}
 }

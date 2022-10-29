@@ -39,7 +39,11 @@ public class Distributor extends AbstractStreamHandler {
 				
 				this.account = new Account(json.getString("uname"), User.getUUID(json.getString("uname")));
 				if(!User.checkName(this.account.uname)) return;
-				if(User.exists(this.account)) return;
+				
+				if(User.exists(this.account)) {
+					this.handleWrongRequest();
+					return;
+				}
 				
 				App.sqlHandler.registerUser(this.account, json.getString("password").hashCode());
 				
@@ -68,12 +72,22 @@ public class Distributor extends AbstractStreamHandler {
 					return;
 				}
 				
-				String receiver = json.getString("receiver");
-				String message = json.getString("message");
+				String receiverStr = json.getString("receiver");
+				String messageStr = json.getString("message");
 				
-				if(!App.sqlHandler.sendMessage(account, new Account(receiver, User.getUUID(receiver)), message)) return;
+				Account receiver = new Account(receiverStr, User.getUUID(receiverStr));
 				
-				this.send("Sent successfully");
+				if(!User.exists(receiver)) {
+					this.handleWrongRequest();
+					return;
+				}
+				
+				Message message = App.sqlHandler.sendMessage(this.account, receiver, messageStr);
+				
+				if(User.isOnline(receiver)) {
+					this.sessions.get(receiver.uuid).write(message.toString());
+				}
+
 				break;
 			
 			case "receive":
@@ -83,7 +97,7 @@ public class Distributor extends AbstractStreamHandler {
 					return;
 				}
 				
-				
+				this.receiveAllMessages();
 				
 				break;
 		}
@@ -127,12 +141,7 @@ public class Distributor extends AbstractStreamHandler {
 		JSONArray messagesArray = new JSONArray();
 		
 		for(Message message : messages) {
-			JSONObject messageJSON = new JSONObject();
-			messageJSON.put("sender", message.getUuidSender());
-			messageJSON.put("message", message.getMessage());
-			messageJSON.put("time", message.getTime());
-			
-			messagesArray.put(messageJSON);
+			messagesArray.put(message.getJSON());
 		}
 		
 		messagesJSON.put("messages", messagesArray);
@@ -145,7 +154,7 @@ public class Distributor extends AbstractStreamHandler {
 	}
 	
 	private void handleWrongRequest() {
-		this.send("Wrong request");
+		this.send("Wrong request!");
 		this.getSession().close();
 	}
 }

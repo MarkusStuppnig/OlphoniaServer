@@ -37,12 +37,10 @@ public class SQLHandler {
 		return false;
 	}
 	
-	public boolean sendMessage(Account sender, Account receiver, String message) {
-		if(!User.exists(sender)) return false;
-		if(!User.exists(receiver)) return false;
-		
-		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + sender.uuid + "', '" + receiver.uuid + "', '" + message + "', " + String.valueOf((new Date()).getTime()) + ");");
-		return true;
+	public Message sendMessage(Account sender, Account receiver, String messageStr) {
+		Message message = new Message(sender.uuid, receiver.uuid, messageStr, String.valueOf((new Date()).getTime()));
+		this.sqlTable.sendStatement("INSERT INTO messages VALUES ('" + message.getUuidSender() + "', '" + message.getUuidReceiver() + "', '" + message.getMessage() + "', " + message.getTime() + ");");
+		return message;
 	}
 	
 	public ArrayList<Message> receiveAllMessages(Account sender) {
