@@ -16,9 +16,7 @@ public class User {
     public static boolean checkName(final String uname) {
 	if ((uname == null) || uname.contains(" ") || uname.contains("'") || uname.contains("\""))
 	    return false;
-	if (uname.contains(";"))
-	    return false;
-	if (uname.contains("\\"))
+	if (uname.contains(";") || uname.contains("\\"))
 	    return false;
 
 	// if(uname.length() > 20) return false;
@@ -49,10 +47,8 @@ public class User {
 
     public static void login(final OlphoniaSession session, final String uname, final int password) {
 	if (!User.checkName(uname) || !(session.account = new Account(uname, User.getUUID(uname))).exists()
-		|| !App.sqlHandler.checkPassword(session.account, password)
-		|| OlphoniaSession.onlineAccounts.contains(session.account)) {
+		|| !App.sqlHandler.checkPassword(session.account, password) || session.account.isConnected()) {
 	    session.handleWrongRequest();
-	    System.out.println("login");
 	    return;
 	}
 

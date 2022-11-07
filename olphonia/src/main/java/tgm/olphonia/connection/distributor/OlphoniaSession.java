@@ -65,18 +65,12 @@ public class OlphoniaSession extends AbstractStreamHandler {
     public void event(final SessionEvent event) {
 	switch (event) {
 
-	case OPENED:
-	    System.out.println("opening");
-	    break;
 	case CLOSED:
-	    System.out.println("closing");
-	    if (!OlphoniaSession.onlineAccounts.contains(this.account))
-		return;
+	    if (this.account.isConnected())
+		this.account.setOnline(false);
 
-	    this.account.setOnline(false);
 	    OlphoniaSession.onlineAccounts.remove(this.account);
 
-	    System.out.println("remove");
 	    break;
 	}
     }
