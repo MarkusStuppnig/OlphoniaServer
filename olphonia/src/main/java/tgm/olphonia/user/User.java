@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import tgm.olphonia.App;
+import tgm.olphonia.connection.Data;
 import tgm.olphonia.connection.distributor.OlphoniaSession;
 
 public class User {
@@ -37,7 +38,7 @@ public class User {
     public static void register(final OlphoniaSession session, final String uname, final int password) {
 	if (session.account != null || !User.checkName(uname)
 		|| (session.account = new Account(uname, User.getUUID(uname))).exists()) {
-	    session.handleWrongRequest();
+	    session.handleWrongRequest(Data.Status.BAD_REQUEST);
 	    return;
 	}
 
@@ -48,7 +49,7 @@ public class User {
     public static void login(final OlphoniaSession session, final String uname, final int password) {
 	if (!User.checkName(uname) || !(session.account = new Account(uname, User.getUUID(uname))).exists()
 		|| !App.sqlHandler.checkPassword(session.account, password) || session.account.isConnected()) {
-	    session.handleWrongRequest();
+	    session.handleWrongRequest(Data.Status.NOT_FOUND);
 	    return;
 	}
 
@@ -59,7 +60,7 @@ public class User {
     public static void send(final OlphoniaSession session, final String receiverStr, final String messageStr) {
 	Account receiver;
 	if ((receiver = new Account(receiverStr, User.getUUID(receiverStr))).exists()) {
-	    session.handleWrongRequest();
+	    session.handleWrongRequest(Data.Status.NO_CONTENT);
 	    return;
 	}
 

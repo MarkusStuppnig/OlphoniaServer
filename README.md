@@ -1,6 +1,6 @@
 # OlphoniaServer
 ## Project Version
-Ophonia Server: v1.0
+Ophonia Server: v1.01
 ## Description
 This is the source code for a java server, which allows users to cumminicate with each other.
 ## Main File

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.snf4j.core.handler.AbstractStreamHandler;
 import org.snf4j.core.handler.SessionEvent;
 
+import tgm.olphonia.connection.Data;
 import tgm.olphonia.user.Account;
 import tgm.olphonia.user.User;
 
@@ -36,12 +37,13 @@ public class OlphoniaSession extends AbstractStreamHandler {
 	case "login":
 
 	    User.login(this, json.getString("uname"), json.getString("password").hashCode());
+	    this.send((new JSONObject()).put("Acknowledge", "logged-In").put("id", 200).toString());
 
 	    return;
 	}
 
 	if (this.account == null) {
-	    this.handleWrongRequest();
+	    this.handleWrongRequest(Data.Status.BAD_REQUEST);
 	    return;
 	}
 
@@ -79,8 +81,8 @@ public class OlphoniaSession extends AbstractStreamHandler {
 	this.getSession().write(message.getBytes());
     }
 
-    public void handleWrongRequest() {
-	this.send("Wrong request!");
+    public void handleWrongRequest(final Data.Status status) {
+	this.send(status.getJSONObject());
 	this.getSession().close();
     }
 }
