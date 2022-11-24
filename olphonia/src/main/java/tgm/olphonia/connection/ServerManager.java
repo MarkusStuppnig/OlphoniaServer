@@ -9,12 +9,15 @@ import org.snf4j.core.SelectorLoop;
 import org.snf4j.core.factory.AbstractSessionFactory;
 import org.snf4j.core.handler.IStreamHandler;
 
+import tgm.olphonia.App;
 import tgm.olphonia.connection.distributor.OlphoniaSession;
 
 public class ServerManager {
 
     public ServerManager() {
-	this.launchDistributor(1800);
+	System.out.print("Server launching on port: \u001B[36m" + App.port + "\u001B[0m ...");
+	this.launchDistributor(App.port);
+	System.out.println("done");
     }
 
     private OlphoniaSession launchDistributor(final int port) {

@@ -14,6 +14,8 @@ public class App {
 
     public static ServerManager manager;
 
+    public static int port = 80;
+
     public static void main(final String[] args) throws SQLException, IOException {
 	sqlTable = new SQLTable("markus", "password", "olphonia");
 	sqlHandler = new SQLHandler(sqlTable);
